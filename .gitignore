@@ -1,0 +1,7 @@
+venv
+.vscode
+glove.6B
+archive
+glove.6B.zip
+keras_models
+data

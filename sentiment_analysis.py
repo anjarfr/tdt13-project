@@ -2,7 +2,7 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 4,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2178,7 +2178,16 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 49,
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "data = pd.read_csv('weaklabeled_data.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2192,7 +2201,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 50,
+   "execution_count": 7,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2201,7 +2210,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 51,
+   "execution_count": 8,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2210,7 +2219,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 52,
+   "execution_count": 9,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2220,7 +2229,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 53,
+   "execution_count": 10,
    "metadata": {},
    "outputs": [
     {
@@ -2229,7 +2238,7 @@
        "138022"
       ]
      },
-     "execution_count": 53,
+     "execution_count": 10,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2241,7 +2250,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 54,
+   "execution_count": 11,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2250,7 +2259,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 55,
+   "execution_count": 12,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2259,7 +2268,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 56,
+   "execution_count": 13,
    "metadata": {},
    "outputs": [
     {
@@ -2268,7 +2277,7 @@
        "44898"
       ]
      },
-     "execution_count": 56,
+     "execution_count": 13,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2280,7 +2289,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 57,
+   "execution_count": 14,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2295,7 +2304,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 58,
+   "execution_count": 15,
    "metadata": {},
    "outputs": [
     {
@@ -2312,7 +2321,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 59,
+   "execution_count": 16,
    "metadata": {},
    "outputs": [],
    "source": [
@@ -2325,7 +2334,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 60,
+   "execution_count": 17,
    "metadata": {},
    "outputs": [
     {
@@ -2334,7 +2343,7 @@
        "(138022, 100)"
       ]
      },
-     "execution_count": 60,
+     "execution_count": 17,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2352,7 +2361,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 61,
+   "execution_count": 18,
    "metadata": {},
    "outputs": [
     {
@@ -2361,7 +2370,7 @@
        "array([1, 1, 1, ..., 1, 1, 1])"
       ]
      },
-     "execution_count": 61,
+     "execution_count": 18,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -2374,25 +2383,27 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 62,
-   "metadata": {},
+   "execution_count": 27,
+   "metadata": {
+    "scrolled": false
+   },
    "outputs": [
     {
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Model: \"sequential\"\n",
+      "Model: \"sequential_1\"\n",
       "_________________________________________________________________\n",
       "Layer (type)                 Output Shape              Param #   \n",
       "=================================================================\n",
-      "embedding (Embedding)        (None, 4, 100)            13802200  \n",
+      "embedding_1 (Embedding)      (None, 8375, 100)         13802200  \n",
       "_________________________________________________________________\n",
-      "flatten (Flatten)            (None, 400)               0         \n",
+      "flatten_1 (Flatten)          (None, 837500)            0         \n",
       "_________________________________________________________________\n",
-      "dense (Dense)                (None, 1)                 401       \n",
+      "dense_1 (Dense)              (None, 1)                 837501    \n",
       "=================================================================\n",
-      "Total params: 13,802,601\n",
-      "Trainable params: 401\n",
+      "Total params: 14,639,701\n",
+      "Trainable params: 837,501\n",
       "Non-trainable params: 13,802,200\n",
       "_________________________________________________________________\n",
       "None\n"
@@ -2401,7 +2412,7 @@
    ],
    "source": [
     "model = Sequential()\n",
-    "e = Embedding(vocab_size, 100, weights=[embedding_matrix], input_length=4, trainable=False)\n",
+    "e = Embedding(vocab_size, 100, weights=[embedding_matrix], input_length=max_length, trainable=False)\n",
     "model.add(e)\n",
     "model.add(Flatten())\n",
     "model.add(Dense(1, activation='sigmoid'))\n",
@@ -2413,32 +2424,79 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
-   "metadata": {},
+   "execution_count": 29,
+   "metadata": {
+    "scrolled": false
+   },
    "outputs": [
     {
-     "ename": "NameError",
-     "evalue": "name 'model' is not defined",
-     "output_type": "error",
-     "traceback": [
-      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
-      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
-      "\u001b[0;32m<ipython-input-1-aec95444ebc8>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mmodel\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfit\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mpadded_docs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0my_weak\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mepochs\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m50\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mverbose\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mbatch_size\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m16\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
-      "\u001b[0;31mNameError\u001b[0m: name 'model' is not defined"
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Epoch 1/3\n",
+      "2807/2807 [==============================] - 52s 18ms/step - loss: 0.2255 - accuracy: 0.9661\n",
+      "Epoch 2/3\n",
+      "2807/2807 [==============================] - 51s 18ms/step - loss: 0.0926 - accuracy: 0.9790\n",
+      "Epoch 3/3\n",
+      "2807/2807 [==============================] - 53s 19ms/step - loss: 0.0865 - accuracy: 0.9813\n"
      ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "<tensorflow.python.keras.callbacks.History at 0x7f24f41ba1f0>"
+      ]
+     },
+     "execution_count": 29,
+     "metadata": {},
+     "output_type": "execute_result"
     }
    ],
    "source": [
-    "model.fit(padded_docs, y_weak, epochs=50, verbose=0, batch_size=16)"
+    "model.fit(padded_docs, y_weak, epochs=3, verbose=1, batch_size=16)"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
+   "execution_count": 30,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "WARNING:tensorflow:From /home/anja/Projects/tdt13-project/venv/lib/python3.8/site-packages/tensorflow/python/training/tracking/tracking.py:111: Model.state_updates (from tensorflow.python.keras.engine.training) is deprecated and will be removed in a future version.\n",
+      "Instructions for updating:\n",
+      "This property should not be used in TensorFlow 2.0, as updates are applied automatically.\n",
+      "WARNING:tensorflow:From /home/anja/Projects/tdt13-project/venv/lib/python3.8/site-packages/tensorflow/python/training/tracking/tracking.py:111: Layer.updates (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.\n",
+      "Instructions for updating:\n",
+      "This property should not be used in TensorFlow 2.0, as updates are applied automatically.\n",
+      "INFO:tensorflow:Assets written to: keras_model/assets\n"
+     ]
+    }
+   ],
    "source": [
-    "loss, accuracy = model.evaluate(padded_docs, labels, verbose=0)\n",
+    "model.save('keras_model')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "1404/1404 [==============================] - 30s 22ms/step - loss: 0.0328 - accuracy: 0.9911\n",
+      "Accuracy: 99.113548\n"
+     ]
+    }
+   ],
+   "source": [
+    "loss, accuracy = model.evaluate(padded_docs, y_weak, verbose=1)\n",
     "print('Accuracy: %f' % (accuracy*100))"
    ]
   },
@@ -2448,41 +2506,6 @@
    "metadata": {},
    "outputs": [],
    "source": []
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "import xgboost as xgb\n",
-    "\n",
-    "model = xgb.XGBClassifier()"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "from sklearn.model_selection import train_test_split\n",
-    "\n",
-    "training_data = data.drop(['label', 'weak_label'], axis=1)\n",
-    "test_size = 0.2\n",
-    "train, test, y_train, y_test = train_test_split(training_data, y_weak, test_size=test_size, random_state=42)"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "scrolled": true
-   },
-   "outputs": [],
-   "source": [
-    "data"
-   ]
   }
  ],
  "metadata": {
